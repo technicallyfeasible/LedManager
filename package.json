@@ -1,0 +1,18 @@
+{
+  "name": "LedManager",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "immutable": "^3.7.6",
+    "lodash": "^3.10.1",
+    "react-native": "^0.18.0-rc",
+    "react-native-linear-gradient": "git+ssh://git@github.com:technicallyfeasible/react-native-linear-gradient.git",
+    "react-redux": "^4.0.6",
+    "redux": "^3.0.5",
+    "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {}
+}
