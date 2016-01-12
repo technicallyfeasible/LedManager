@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
     height: 100,
     position: 'relative',
     marginLeft: 11,
+    marginTop: 11,
     marginRight: 11,
+    marginBottom: 11,
   },
   gradient: {
     flex: 1,

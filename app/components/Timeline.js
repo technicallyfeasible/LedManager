@@ -4,7 +4,7 @@ const {
   View,
 } = React;
 const ColorGradient = require('./ColorGradient');
-const { List } = require('immutable');
+const { List, Map } = require('immutable');
 const { connect } = require('react-redux');
 
 const styles = StyleSheet.create({
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 const Timeline = React.createClass({
   propTypes: {
     timeline: React.PropTypes.instanceOf(List),
+    blocks: React.PropTypes.instanceOf(Map),
   },
   getInitialState() {
     return {
@@ -49,15 +50,17 @@ const Timeline = React.createClass({
     this.forceUpdate();
   },
   render() {
+    const timeline = this.props.timeline;
+    const data = timeline.get(0).toJS();
+    const colors = this.props.blocks.getIn([data.blockId, 'colors']).toJS();
     return (
       <View style={styles.root}>
-        <ColorGradient colors={this.state.colors} onLocationChange={this.handleLocationChange} />
+        <ColorGradient colors={colors} onLocationChange={this.handleLocationChange} />
       </View>
     );
   },
 });
 
 module.exports = connect(state => ({
-  program: state.program.get('program'),
   blocks: state.program.get('blocks'),
 }))(Timeline);

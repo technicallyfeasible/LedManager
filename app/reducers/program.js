@@ -26,12 +26,12 @@ const I = require('immutable');
 const initialState = I.fromJS({
   timelines: [
     [
-      { time: 0, blockId: 1, colors: ['#000', '#0f0', '#000'] },
+      { time: 0, blockId: '1', colors: ['#000', '#0f0', '#000'] },
     ],
   ],
-  blocks: [
-    {
-      id: 1,
+  blocks: {
+    1: {
+      id: '1',
       duration: 100,
       colors: [
         { id: 0, color: '#000', location: 0.0 },
@@ -39,7 +39,7 @@ const initialState = I.fromJS({
         { id: 0, color: '#000', location: 1.0 },
       ],
     },
-  ],
+  },
 });
 
 function program(state = initialState, action) {

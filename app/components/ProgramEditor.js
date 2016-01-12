@@ -2,6 +2,7 @@ const React = require('react-native');
 const {
   StyleSheet,
   View,
+  Text,
   TextInput,
 } = React;
 const Timeline = require('./Timeline');
@@ -16,8 +17,8 @@ const styles = StyleSheet.create({
   },
   row: {
     alignSelf: 'stretch',
-    flexDirection: 'column',
-    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
 });
 
@@ -35,13 +36,12 @@ const ProgramEditor = React.createClass({
     const timelines = program.get('timelines');
     // const blocks = program.get('blocks');
 
+
     return (
       <View style={styles.root}>
-        <View style={styles.row}>
-          <Text value="Number of LEDs" />
-          <TextInput value={timelines.size} />
-        </View>
-        { timelines.map(timeline => <Timeline />) }
+        <Text>Number of LEDs: { timelines.size }</Text>
+        <Text>LEDs</Text>
+        { timelines.map(t => <Timeline timeline={t} />) }
       </View>
     );
   },
