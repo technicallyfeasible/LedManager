@@ -4,6 +4,7 @@ const {
   View,
 } = React;
 const ColorGradient = require('./ColorGradient');
+const { List } = require('immutable');
 const { connect } = require('react-redux');
 
 const styles = StyleSheet.create({
@@ -20,23 +21,22 @@ const styles = StyleSheet.create({
 
 const Timeline = React.createClass({
   propTypes: {
-    program: React.PropTypes.arrayOf(React.PropTypes.shape({
-      // time offset in ms
-      time: React.PropTypes.number,
-      blockId: React.PropTypes.number,
-      colors: React.PropTypes.arrayOf(React.PropTypes.string),
-    })),
-    blocks: React.PropTypes.arrayOf(React.PropTypes.shape({
-      // id of the block
-      id: React.PropTypes.number,
-      // length in ms
-      duration: React.PropTypes.number,
-      // list of colors and locations
-      colors: React.PropTypes.arrayOf(React.PropTypes.shape({
-        color: React.PropTypes.string,
-        location: React.PropTypes.number,
-      })),
-    })),
+    timeline: React.PropTypes.instanceOf(List),
+  },
+  getInitialState() {
+    return {
+      colors: [{
+        color: '#000', location: 0.0,
+      }, {
+        color: '#f00', location: 0.1,
+      }, {
+        color: '#0f0', location: 0.4,
+      }, {
+        color: '#00f', location: 0.8,
+      }, {
+        color: '#000', location: 1.0,
+      }],
+    };
   },
   getDefaultProps() {
     return {
@@ -44,9 +44,14 @@ const Timeline = React.createClass({
       blocks: [],
     };
   },
+  handleLocationChange(index, location) {
+    this.state.colors[index].location = location;
+    this.forceUpdate();
+  },
   render() {
     return (
       <View style={styles.root}>
+        <ColorGradient colors={this.state.colors} onLocationChange={this.handleLocationChange} />
       </View>
     );
   },
