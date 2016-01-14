@@ -4,6 +4,7 @@ const {
   View,
 } = React;
 const ColorGradient = require('./ColorGradient');
+const TimelineBlock = require('./TimelineBlock');
 const { List, Map } = require('immutable');
 const { connect } = require('react-redux');
 
@@ -51,11 +52,13 @@ const Timeline = React.createClass({
   },
   render() {
     const timeline = this.props.timeline;
-    const data = timeline.get(0).toJS();
-    const colors = this.props.blocks.getIn([data.blockId, 'colors']).toJS();
+    const blocks = timeline.map((b, i) => {
+      return <TimelineBlock key={i} colors={b.get('colors')}/>;
+    });
+    // <ColorGradient colors={colors} onLocationChange={this.handleLocationChange} />
     return (
       <View style={styles.root}>
-        <ColorGradient colors={colors} onLocationChange={this.handleLocationChange} />
+        { blocks }
       </View>
     );
   },

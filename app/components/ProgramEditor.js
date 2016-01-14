@@ -3,9 +3,10 @@ const {
   StyleSheet,
   View,
   Text,
-  TextInput,
+  TouchableOpacity,
 } = React;
 const Timeline = require('./Timeline');
+const Button = require('./elements/Button');
 const { Map } = require('immutable');
 const { connect } = require('react-redux');
 
@@ -42,6 +43,7 @@ const ProgramEditor = React.createClass({
         <Text>Number of LEDs: { timelines.size }</Text>
         <Text>LEDs</Text>
         { timelines.map(t => <Timeline timeline={t} />) }
+        <Button text="+"/>
       </View>
     );
   },

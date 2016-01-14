@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   root: {
     alignSelf: 'stretch',
     flexDirection: 'column',
-    height: 100,
+    flex: 1,
     position: 'relative',
     marginLeft: 11,
     marginTop: 11,
