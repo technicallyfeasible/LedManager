@@ -6,6 +6,7 @@ const I = require('immutable');
       // time offset in ms
       time: number,
       blockId: number,
+      duration: number,
       colors: [string],
     ]
   ],
@@ -26,7 +27,10 @@ const I = require('immutable');
 const initialState = I.fromJS({
   timelines: [
     [
-      { time: 0, blockId: '1', colors: ['#000', '#0f0', '#000'] },
+      // uses defaults for duration
+      { time: 0, blockId: '1', colors: ['#000', '#00f', '#000'] },
+      // uses defaults for colors
+      { time: 500, blockId: '1', duration: 200 },
     ],
   ],
   blocks: {

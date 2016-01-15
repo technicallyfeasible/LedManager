@@ -11,7 +11,7 @@ const { connect } = require('react-redux');
 const styles = StyleSheet.create({
   root: {
     alignSelf: 'stretch',
-    flexDirection: 'column',
+    flexDirection: 'row',
     height: 100,
     position: 'relative',
   },
@@ -24,6 +24,12 @@ const Timeline = React.createClass({
   propTypes: {
     timeline: React.PropTypes.instanceOf(List),
     blocks: React.PropTypes.instanceOf(Map),
+  },
+  getDefaultProps() {
+    return {
+      program: [],
+      blocks: [],
+    };
   },
   getInitialState() {
     return {
@@ -40,25 +46,26 @@ const Timeline = React.createClass({
       }],
     };
   },
-  getDefaultProps() {
-    return {
-      program: [],
-      blocks: [],
-    };
-  },
   handleLocationChange(index, location) {
     this.state.colors[index].location = location;
     this.forceUpdate();
   },
+  _getColors(timeline) {
+    let colors = timeline.get('colors');
+    if (!colors) {
+      colors = ((this.props.blocks && this.props.blocks.getIn([timeline.get('blockId'), 'colors'])) || []).map(c => c.get('color'));
+    }
+    return colors;
+  },
   render() {
     const timeline = this.props.timeline;
-    const blocks = timeline.map((b, i) => {
-      return <TimelineBlock key={i} colors={b.get('colors')}/>;
+    const blockElements = timeline.map((b, i) => {
+      return <TimelineBlock key={i} colors={this._getColors(b)}/>;
     });
     // <ColorGradient colors={colors} onLocationChange={this.handleLocationChange} />
     return (
       <View style={styles.root}>
-        { blocks }
+        { blockElements }
       </View>
     );
   },
