@@ -1,4 +1,5 @@
 const I = require('immutable');
+import ActionTypes from '../constants/ActionTypes';
 
 /*
   timelines: [
@@ -48,6 +49,9 @@ const initialState = I.fromJS({
 
 function program(state = initialState, action) {
   switch (action.type) {
+    case ActionTypes.Program.ADD_TIMELINE:
+      const timelines = state.get('timelines');
+      return state.set('timelines', timelines.push([]));
     default:
       return state;
   }

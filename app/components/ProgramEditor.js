@@ -1,14 +1,15 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
 } = React;
-const Timeline = require('./Timeline');
-const Button = require('./elements/Button');
-const { Map } = require('immutable');
-const { connect } = require('react-redux');
+import { Map } from 'immutable';
+import { program as programActionCreators } from '../actions';
+import Timeline from './Timeline';
+import Button from './elements/Button';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   root: {
@@ -26,24 +27,27 @@ const styles = StyleSheet.create({
 const ProgramEditor = React.createClass({
   propTypes: {
     program: React.PropTypes.instanceOf(Map),
+    programActions: React.PropTypes.object,
   },
   getDefaultProps() {
     return {
       program: Map(),
     };
   },
+  handleRowAdd() {
+    this.props.programActions.addTimeline();
+  },
   render() {
     const program = this.props.program;
     const timelines = program.get('timelines');
     // const blocks = program.get('blocks');
-
 
     return (
       <View style={styles.root}>
         <Text>Number of LEDs: { timelines.size }</Text>
         <Text>LEDs</Text>
         { timelines.map(t => <Timeline timeline={t} />) }
-        <Button text="+"/>
+        <Button text="+" onClick={this.handleRowAdd} />
       </View>
     );
   },
@@ -51,4 +55,6 @@ const ProgramEditor = React.createClass({
 
 module.exports = connect(state => ({
   program: state.program,
+}), dispatch => ({
+  programActions: bindActionCreators(programActionCreators, dispatch),
 }))(ProgramEditor);

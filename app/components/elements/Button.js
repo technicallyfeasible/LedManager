@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-  }
+  },
 });
 
 const Button = React.createClass({
@@ -39,10 +39,11 @@ const Button = React.createClass({
     children: React.PropTypes.any,
     text: React.PropTypes.string,
     size: React.PropTypes.oneOf(['small', 'large']),
+    onClick: React.PropTypes.func,
   },
   render() {
     return (
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={this.props.onClick}>
         <Text style={styles.text}>{ this.props.text }</Text>
       </TouchableOpacity>
     );
