@@ -1,10 +1,12 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   View,
 } = React;
-const LinearGradient = require('react-native-linear-gradient');
-const ColorAnchor = require('./ColorAnchor');
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  ColorAnchor,
+} from './';
 
 const styles = StyleSheet.create({
   root: {
@@ -79,4 +81,4 @@ const ColorGradient = React.createClass({
   },
 });
 
-module.exports = ColorGradient;
+export default ColorGradient;

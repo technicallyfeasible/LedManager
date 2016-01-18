@@ -1,12 +1,15 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   View,
 } = React;
-const ColorGradient = require('./ColorGradient');
-const TimelineBlock = require('./TimelineBlock');
-const { List, Map } = require('immutable');
-const { connect } = require('react-redux');
+import { List, Map } from 'immutable';
+import { connect } from 'react-redux';
+
+import {
+  ColorGradient,
+  TimelineBlock,
+} from './';
 
 const styles = StyleSheet.create({
   root: {
@@ -71,6 +74,6 @@ const Timeline = React.createClass({
   },
 });
 
-module.exports = connect(state => ({
+export default connect(state => ({
   blocks: state.program.get('blocks'),
 }))(Timeline);

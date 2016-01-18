@@ -1,4 +1,4 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   View,
@@ -89,4 +89,4 @@ const ColorAnchor = React.createClass({
   },
 });
 
-module.exports = ColorAnchor;
+export default ColorAnchor;

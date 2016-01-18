@@ -4,22 +4,23 @@
  */
 'use strict';
 
-const store = require('./app/store');
-const React = require('react-native');
+import store from './app/store';
+import React from 'react-native';
 const {
   AppRegistry,
   StyleSheet,
-  // Text,
   View,
 } = React;
-const { Provider } = require('react-redux');
-const ProgramEditor = require('./app/components/ProgramEditor.js');
+import { Provider } from 'react-redux';
+import { Button } from './app/components/elements';
+import ProgramEditor from './app/components/ProgramEditor.js';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
@@ -40,6 +41,7 @@ const LedManager = React.createClass({
       <Provider store={store}>
         <View style={styles.container}>
           <ProgramEditor />
+          <Button text="SEND TO DEVICE" />
         </View>
       </Provider>
     );

@@ -1,9 +1,9 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   View,
 } = React;
-const ImmutablePropTypes = require('react-immutable-proptypes');
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const styles = StyleSheet.create({
   root: {
@@ -42,4 +42,4 @@ const TimelineBlock = React.createClass({
   },
 });
 
-module.exports = TimelineBlock;
+export default TimelineBlock;

@@ -46,7 +46,7 @@ const ProgramEditor = React.createClass({
       <View style={styles.root}>
         <Text>Number of LEDs: { timelines.size }</Text>
         <Text>LEDs</Text>
-        { timelines.map(t => <Timeline timeline={t} />) }
+        { timelines.map((t, i) => <Timeline key={i} timeline={t} />) }
         <Button text="+" onClick={this.handleRowAdd} />
       </View>
     );

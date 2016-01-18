@@ -1,10 +1,10 @@
-const React = require('react-native');
+import React from 'react-native';
 const {
   StyleSheet,
   TouchableOpacity,
   Text,
 } = React;
-const { colors } = require('../../styles');
+import { colors } from '../../styles';
 
 const styles = StyleSheet.create({
   button: {
@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    borderWidth: 1,
-    borderColor: '#66a',
-    borderRadius: 3,
+    borderWidth: 0,
+    borderColor: colors.primary,
+    borderRadius: 0,
     backgroundColor: colors.primary,
   },
   buttonSmall: {
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingTop: 3,
     paddingBottom: 3,
-    borderWidth: 1,
-    borderColor: '#66a',
-    borderRadius: 3,
+    borderWidth: 0,
+    borderColor: colors.primary,
+    borderRadius: 0,
     backgroundColor: colors.primary,
   },
   text: {
@@ -50,4 +50,4 @@ const Button = React.createClass({
   },
 });
 
-module.exports = Button;
+export default Button;
