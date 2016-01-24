@@ -13,7 +13,10 @@ const {
 } = React;
 import { Provider } from 'react-redux';
 import { Button } from './app/components/elements';
-import ProgramEditor from './app/components/ProgramEditor.js';
+import {
+  ProgramEditor,
+  BlockEditor,
+} from './app/components';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +44,7 @@ const LedManager = React.createClass({
       <Provider store={store}>
         <View style={styles.container}>
           <ProgramEditor />
+          <BlockEditor />
           <Button text="SEND TO DEVICE" />
         </View>
       </Provider>

@@ -3,12 +3,35 @@ import { CALL_API, Methods } from '../middleware/api';
 
 /**
  * Adds a new timeline to the program
- * @returns {{type: *, appId: *, instance: *}}
  */
 function addTimeline() {
   return {
     type: ActionTypes.Program.ADD_TIMELINE,
+    instance: [],
+  };
+}
+
+/**
+ * Adds a new block to the program
+ */
+function addBlock() {
+  return {
+    type: ActionTypes.Program.ADD_BLOCK,
     instance: {},
+  };
+}
+
+/**
+ * Set the location of a color in a block
+ */
+function setColorLocation(blockId, index, location) {
+  return {
+    type: ActionTypes.Program.Block.SET_COLOR_LOCATION,
+    params: {
+      blockId,
+      index,
+      location,
+    },
   };
 }
 
@@ -36,4 +59,7 @@ function upload(device, program) {
 
 export default {
   addTimeline,
+  addBlock,
+  setColorLocation,
+  upload,
 };

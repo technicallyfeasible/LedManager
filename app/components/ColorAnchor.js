@@ -2,10 +2,12 @@ import React from 'react-native';
 const {
   StyleSheet,
   View,
+  Image,
   NativeModules: {
     UIManager,
   },
 } = React;
+//import anchorImage from 'image!../img/anchor.png';
 
 const styles = StyleSheet.create({
   root: {
@@ -79,6 +81,7 @@ const ColorAnchor = React.createClass({
     const imageStyle = this.state.isMoving ? {
       backgroundColor: props.color,
     } : {};
+    // <Image source={anchorImage} />
     return (
       <View ref="root" style={styles.root}>
         <View style={left} />

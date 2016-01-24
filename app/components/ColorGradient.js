@@ -34,11 +34,7 @@ const ColorGradient = React.createClass({
   },
   getDefaultProps() {
     return {
-      colors: [{
-        color: '#000', location: 0.0,
-      }, {
-        color: '#000', location: 1.0,
-      }],
+      colors: [],
     };
   },
   handleLocationChange(index, location) {
@@ -71,6 +67,12 @@ const ColorGradient = React.createClass({
         anchors.push(anchor);
       }
     });
+
+    // make sure we have at least 2 colors
+    while (colors.length < 2) {
+      locations.push(colors.length);
+      colors.push('#000');
+    }
 
     return (
       <View style={styles.root}>

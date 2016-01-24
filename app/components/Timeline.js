@@ -7,7 +7,6 @@ import { List, Map } from 'immutable';
 import { connect } from 'react-redux';
 
 import {
-  ColorGradient,
   TimelineBlock,
 } from './';
 
@@ -65,7 +64,6 @@ const Timeline = React.createClass({
     const blockElements = timeline.map((b, i) => {
       return <TimelineBlock key={i} colors={this._getColors(b)}/>;
     });
-    // <ColorGradient colors={colors} onLocationChange={this.handleLocationChange} />
     return (
       <View style={styles.root}>
         { blockElements }

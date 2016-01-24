@@ -8,5 +8,9 @@ export default mkconstants('ActionTypes', {
   },
   Program: {
     ADD_TIMELINE: null,
+    ADD_BLOCK: null,
+    Block: {
+      SET_COLOR_LOCATION: null,
+    },
   },
 });

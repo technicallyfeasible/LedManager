@@ -35,7 +35,7 @@ const initialState = I.fromJS({
     ],
   ],
   blocks: {
-    1: {
+    '1': {
       id: '1',
       duration: 100,
       colors: [
@@ -51,7 +51,24 @@ function program(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.Program.ADD_TIMELINE:
       const timelines = state.get('timelines');
-      return state.set('timelines', timelines.push(I.List()));
+      return state.set('timelines', timelines.push(I.fromJS(action.instance || [])));
+    case ActionTypes.Program.ADD_BLOCK:
+      // find a free blockId starting at 1
+      let blockId = 1;
+      for (; blockId < 256 && state.getIn(['blocks', blockId.toString()]); blockId++);
+      // add the new block with some defaults and the new id
+      const block = Object.assign({
+        duration: 100,
+        colors: [],
+      }, action.instance || {}, {
+        id: blockId,
+      });
+      const newState = state.setIn(['blocks', blockId], I.fromJS(block));
+      console.log(newState.toJS());
+      return newState;
+    case ActionTypes.Program.Block.SET_COLOR_LOCATION:
+      const params = action.params;
+      return state.setIn(['blocks', params.blockId, 'colors', params.index, 'location'], params.location);
     default:
       return state;
   }
