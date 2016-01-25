@@ -1,6 +1,7 @@
 import {
   MainPage,
   ProgramEditor,
+  BlockList,
   BlockEditor,
 } from '../components';
 
@@ -24,7 +25,7 @@ export default {
   blocks() {
     return {
       name: 'Blocks',
-      component: BlockEditor,
+      component: BlockList,
     };
   },
   editBlock(id) {

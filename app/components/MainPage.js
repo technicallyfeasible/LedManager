@@ -8,9 +8,12 @@ import Button from './elements/Button';
 
 const styles = StyleSheet.create({
   root: {
-    alignSelf: 'stretch',
     flexDirection: 'column',
-    position: 'relative',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
   },
   row: {
     alignSelf: 'stretch',

@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     marginTop: 11,
     marginRight: 11,
     marginBottom: 11,
+    height: 50,
   },
   gradient: {
     flex: 1,
@@ -44,6 +45,7 @@ const ColorGradient = React.createClass({
   },
   handleLocationChange(index, location) {
     const { onLocationChange, colors } = this.props;
+    if (!onLocationChange) return;
     let l = location;
     // do not allow location to be before previous color
     if (index > 0 && colors[index - 1].location > l) {
@@ -53,7 +55,7 @@ const ColorGradient = React.createClass({
     if (index < (colors.length - 1) && colors[index + 1].location < l) {
       l = colors[index + 1].location;
     }
-    if (onLocationChange) onLocationChange(index, l);
+    onLocationChange(index, l);
   },
 
   /**
@@ -61,12 +63,13 @@ const ColorGradient = React.createClass({
    */
   handleAdd(e) {
     const { onLocationAdd } = this.props;
+    if (!onLocationAdd) return;
     const pageX = e.nativeEvent.pageX;
     UIManager.measureLayoutRelativeToParent(React.findNodeHandle(this.refs.root), () => {
       // TODO: do something with the error
     }, (x, y, width) => {
       const location = Math.min(1.0, Math.max(0, ((pageX - x) / width)));
-      if (onLocationAdd) onLocationAdd(location);
+      onLocationAdd(location);
     });
   },
 
@@ -80,6 +83,7 @@ const ColorGradient = React.createClass({
     props.colors.forEach((c, i) => {
       colors.push(c.color);
       locations.push(c.location);
+      if (!this.props.onLocationChange) return;
       const anchor = <ColorAnchor key={i} location={c.location} color={c.color} canMove={i > 0 && i < (props.colors.length - 1)} onLocationChange={this.handleLocationChange.bind(self, i)} />;
       if (i === 0 || i === (props.colors.length - 1)) {
         anchors.splice(0, 0, anchor);
