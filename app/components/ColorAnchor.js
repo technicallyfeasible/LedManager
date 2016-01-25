@@ -7,7 +7,7 @@ const {
     UIManager,
   },
 } = React;
-//import anchorImage from 'image!../img/anchor.png';
+import anchorImage from '../img/anchor.png';
 
 const styles = StyleSheet.create({
   root: {
@@ -18,12 +18,9 @@ const styles = StyleSheet.create({
     left: -11,
     flexDirection: 'row',
   },
-  image: {
-    width: 20,
-    // height: 20,
-    borderColor: '#000',
-    borderWidth: 1,
-    borderStyle: 'solid',
+  anchor: {
+    width: 22,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
 });
 
@@ -65,7 +62,7 @@ const ColorAnchor = React.createClass({
       x: e.nativeEvent.pageX,
     });
   },
-  handleResponderRelease(e) {
+  handleResponderRelease() {
     this.setState({
       isMoving: false,
     });
@@ -78,14 +75,12 @@ const ColorAnchor = React.createClass({
     const right = {
       flex: 1.0 - (props.location || 0),
     };
-    const imageStyle = this.state.isMoving ? {
-      backgroundColor: props.color,
-    } : {};
-    // <Image source={anchorImage} />
     return (
       <View ref="root" style={styles.root}>
         <View style={left} />
-        <View style={[styles.image, imageStyle]} onStartShouldSetResponder={this.handleStartShouldSetResponder} onMoveShouldSetResponder={this.handleMoveShouldSetResponder} onResponderMove={this.handleResponderMove} onResponderRelease={this.handleResponderRelease} />
+        <View style={styles.anchor} onStartShouldSetResponder={this.handleStartShouldSetResponder} onMoveShouldSetResponder={this.handleMoveShouldSetResponder} onResponderMove={this.handleResponderMove} onResponderRelease={this.handleResponderRelease}>
+          <Image source={anchorImage} />
+        </View>
         <View style={right} />
       </View>
     );

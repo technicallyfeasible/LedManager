@@ -1,7 +1,11 @@
 import React from 'react-native';
 const {
   StyleSheet,
+  TouchableWithoutFeedback,
   View,
+  NativeModules: {
+    UIManager,
+  },
 } = React;
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -31,6 +35,7 @@ const ColorGradient = React.createClass({
       location: React.PropTypes.number,
     })),
     onLocationChange: React.PropTypes.func,
+    onLocationAdd: React.PropTypes.func,
   },
   getDefaultProps() {
     return {
@@ -50,6 +55,21 @@ const ColorGradient = React.createClass({
     }
     if (onLocationChange) onLocationChange(index, l);
   },
+
+  /**
+   * Add a new anchor
+   */
+  handleAdd(e) {
+    const { onLocationAdd } = this.props;
+    const pageX = e.nativeEvent.pageX;
+    UIManager.measureLayoutRelativeToParent(React.findNodeHandle(this.refs.root), () => {
+      // TODO: do something with the error
+    }, (x, y, width) => {
+      const location = Math.min(1.0, Math.max(0, ((pageX - x) / width)));
+      if (onLocationAdd) onLocationAdd(location);
+    });
+  },
+
   render() {
     const self = this;
     const props = this.props;
@@ -75,10 +95,12 @@ const ColorGradient = React.createClass({
     }
 
     return (
-      <View style={styles.root}>
-        <LinearGradient colors={colors} locations={locations} start={[0.0, 0.0]} end={[1, 0]} style={styles.gradient} />
-        { anchors }
-      </View>
+      <TouchableWithoutFeedback onPress={this.handleAdd}>
+        <View ref="root" style={styles.root}>
+          <LinearGradient colors={colors} locations={locations} start={[0.0, 0.0]} end={[1.0, 0.0]} style={styles.gradient} />
+          { anchors }
+        </View>
+      </TouchableWithoutFeedback>
     );
   },
 });

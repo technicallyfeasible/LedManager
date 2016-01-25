@@ -3,7 +3,7 @@ const {
   StyleSheet,
   View,
 } = React;
-import { List, Map } from 'immutable';
+import I from 'immutable';
 import { connect } from 'react-redux';
 
 import {
@@ -17,40 +17,18 @@ const styles = StyleSheet.create({
     height: 100,
     position: 'relative',
   },
-  gradient: {
-    flex: 1,
-  },
 });
 
 const Timeline = React.createClass({
   propTypes: {
-    timeline: React.PropTypes.instanceOf(List),
-    blocks: React.PropTypes.instanceOf(Map),
+    timeline: React.PropTypes.instanceOf(I.List),
+    blocks: React.PropTypes.instanceOf(I.Map),
   },
   getDefaultProps() {
     return {
-      program: [],
+      timeline: I.List(),
       blocks: [],
     };
-  },
-  getInitialState() {
-    return {
-      colors: [{
-        color: '#000', location: 0.0,
-      }, {
-        color: '#f00', location: 0.1,
-      }, {
-        color: '#0f0', location: 0.4,
-      }, {
-        color: '#00f', location: 0.8,
-      }, {
-        color: '#000', location: 1.0,
-      }],
-    };
-  },
-  handleLocationChange(index, location) {
-    this.state.colors[index].location = location;
-    this.forceUpdate();
   },
   _getColors(timeline) {
     let colors = timeline.get('colors');

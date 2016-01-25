@@ -22,6 +22,19 @@ function addBlock() {
 }
 
 /**
+ * Add a new anchor in the specified location
+ */
+function addAnchor(blockId, location) {
+  return {
+    type: ActionTypes.Program.Block.ADD_ANCHOR,
+    params: {
+      blockId,
+      location,
+    },
+  };
+}
+
+/**
  * Set the location of a color in a block
  */
 function setColorLocation(blockId, index, location) {
@@ -60,6 +73,7 @@ function upload(device, program) {
 export default {
   addTimeline,
   addBlock,
+  addAnchor,
   setColorLocation,
   upload,
 };

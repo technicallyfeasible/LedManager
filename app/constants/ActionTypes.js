@@ -10,6 +10,7 @@ export default mkconstants('ActionTypes', {
     ADD_TIMELINE: null,
     ADD_BLOCK: null,
     Block: {
+      ADD_ANCHOR: null,
       SET_COLOR_LOCATION: null,
     },
   },

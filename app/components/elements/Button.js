@@ -29,8 +29,14 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     backgroundColor: colors.primary,
   },
+  transparent: {
+    backgroundColor: 'transparent',
+  },
   text: {
     color: '#fff',
+  },
+  textTransparent: {
+    color: colors.secondary,
   },
 });
 
@@ -39,12 +45,23 @@ const Button = React.createClass({
     children: React.PropTypes.any,
     text: React.PropTypes.string,
     size: React.PropTypes.oneOf(['small', 'large']),
+    transparent: React.PropTypes.bool,
     onClick: React.PropTypes.func,
   },
   render() {
+    const style = [];
+    style.push(this.props.size === 'small' ? styles.buttonSmall : styles.button);
+    const textStyle = [];
+    textStyle.push(styles.text);
+
+    if (this.props.transparent) {
+      style.push(styles.transparent);
+      textStyle.push(styles.textTransparent);
+    }
+
     return (
-      <TouchableOpacity style={styles.button} onPress={this.props.onClick}>
-        <Text style={styles.text}>{ this.props.text }</Text>
+      <TouchableOpacity style={style} onPress={this.props.onClick}>
+        <Text style={textStyle}>{ this.props.text }</Text>
       </TouchableOpacity>
     );
   },

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'column',
     position: 'relative',
-    height: 200,
+    height: 400,
   },
 });
 
@@ -41,7 +41,12 @@ const BlockEditor = React.createClass({
     return (
       <View style={styles.root}>
         <Text>Number of Blocks: { blocks.size }</Text>
-        { blocks.map(b => <ColorGradient key={b.get('id')} colors={b.get('colors').toJS()} onLocationChange={this.props.programActions.setColorLocation.bind(this, b.get('id'))} />).toArray() }
+        { blocks.map(b => {
+          const id = b.get('id');
+          const locationAdd = this.props.programActions.addAnchor.bind(this, id);
+          const locationChange = this.props.programActions.setColorLocation.bind(this, id);
+          return <ColorGradient key={id} colors={b.get('colors').toJS()} onLocationAdd={locationAdd} onLocationChange={locationChange} />;
+        }).toArray() }
         <Button text="+" onClick={this.props.programActions.addBlock} />
       </View>
     );

@@ -28,6 +28,7 @@ const ProgramEditor = React.createClass({
   propTypes: {
     program: React.PropTypes.instanceOf(Map),
     programActions: React.PropTypes.object,
+    navigator: React.PropTypes.object,
   },
   getDefaultProps() {
     return {
@@ -37,7 +38,6 @@ const ProgramEditor = React.createClass({
   render() {
     const program = this.props.program;
     const timelines = program.get('timelines');
-    // const blocks = program.get('blocks');
 
     return (
       <View style={styles.root}>
