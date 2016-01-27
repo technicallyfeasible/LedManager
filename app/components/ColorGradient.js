@@ -98,12 +98,19 @@ const ColorGradient = React.createClass({
       colors.push('#000');
     }
 
+    const component = (
+      <View ref="root" style={styles.root}>
+        <LinearGradient colors={colors} locations={locations} start={[0.0, 0.0]} end={[1.0, 0.0]} style={styles.gradient} />
+        { anchors }
+      </View>
+    );
+
+    // need to omit Touchable because otherwise other click handlers will not be fired
+    if (!this.props.onLocationAdd) return component;
+
     return (
       <TouchableWithoutFeedback onPress={this.handleAdd}>
-        <View ref="root" style={styles.root}>
-          <LinearGradient colors={colors} locations={locations} start={[0.0, 0.0]} end={[1.0, 0.0]} style={styles.gradient} />
-          { anchors }
-        </View>
+        { component }
       </TouchableWithoutFeedback>
     );
   },
