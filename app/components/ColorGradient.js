@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     position: 'relative',
-    marginLeft: 11,
-    marginTop: 11,
-    marginRight: 11,
-    marginBottom: 11,
     height: 50,
   },
   gradient: {
     flex: 1,
+    marginLeft: 11,
+    marginTop: 11,
+    marginRight: 11,
+    marginBottom: 11,
   },
 });
 
@@ -35,6 +35,7 @@ const ColorGradient = React.createClass({
       color: React.PropTypes.string,
       location: React.PropTypes.number,
     })),
+    onPress: React.PropTypes.func,
     onLocationChange: React.PropTypes.func,
     onLocationAdd: React.PropTypes.func,
   },
@@ -74,7 +75,6 @@ const ColorGradient = React.createClass({
   },
 
   render() {
-    const self = this;
     const props = this.props;
     const colors = [];
     const locations = [];
@@ -84,7 +84,7 @@ const ColorGradient = React.createClass({
       colors.push(c.color);
       locations.push(c.location);
       if (!this.props.onLocationChange) return;
-      const anchor = <ColorAnchor key={i} location={c.location} color={c.color} canMove={i > 0 && i < (props.colors.length - 1)} onLocationChange={this.handleLocationChange.bind(self, i)} />;
+      const anchor = <ColorAnchor key={i} index={i} location={c.location} color={c.color} canMove={i > 0 && i < (props.colors.length - 1)} onLocationChange={this.handleLocationChange} onPress={this.props.onPress} />;
       if (i === 0 || i === (props.colors.length - 1)) {
         anchors.splice(0, 0, anchor);
       } else {
