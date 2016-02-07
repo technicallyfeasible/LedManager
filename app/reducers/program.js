@@ -1,5 +1,6 @@
 import I from 'immutable';
 import ActionTypes from '../constants/ActionTypes';
+import colorUtils from '../utils/colors';
 
 /*
   timelines: [
@@ -71,21 +72,47 @@ function program(state = initialState, action) {
       // add the new block with some defaults and the new id
       const block = Object.assign({
         duration: 100,
-        colors: [],
+        colors: [
+          { location: 0.0, color: '#000' },
+          { location: 1.0, color: '#000' },
+        ],
       }, action.instance || {}, {
         id: blockId.toString(),
       });
       return state.setIn(['blocks', blockId.toString()], I.fromJS(block));
 
     case ActionTypes.Program.Block.ADD_ANCHOR:
+      let colors = state.getIn(['blocks', params.blockId, 'colors']);
+      let newIndex = colors.findIndex(col => col.get('location') > params.location);
+      if (newIndex === -1) newIndex = colors.size;
+      let colorValue;
+      if (newIndex === 0 || newIndex === colors.size) {
+        colorValue = colors.getIn([newIndex, 'color']);
+      } else {
+        const left = colorUtils.parseColor(colors.getIn([newIndex - 1, 'color']));
+        const right = colorUtils.parseColor(colors.getIn([newIndex, 'color']));
+        const leftLocation = colors.getIn([newIndex - 1, 'location']);
+        const rightLocation = colors.getIn([newIndex, 'location']);
+        const a = (params.location - leftLocation) / (rightLocation - leftLocation);
+        const b = (rightLocation - params.location) / (rightLocation - leftLocation);
+        const c = [
+          left[0] * b + right[0] * a,
+          left[1] * b + right[1] * a,
+          left[2] * b + right[2] * a,
+        ];
+        colorValue = '#' + c.map(colorUtils.toHex).join('');
+      }
       const newColor = I.fromJS({
-        id: 0, color: '#000', location: params.location,
+        color: colorValue, location: params.location,
       });
-      const colors = state.getIn(['blocks', params.blockId, 'colors']).push(newColor).sort((a, b) => {
-        return a.get('location') - b.get('location');
-      });
-      if (newState.getIn(['editor', 'block', 'id']) === params.blockId) {
-        newState = newState.setIn(['editor', 'block', 'color'], newColor).setIn(['editor', 'block', 'index'], colors.indexOf(newColor));
+      colors = colors.splice(newIndex, 0, newColor);
+      const curBlockId = newState.getIn(['editor', 'block', 'id']);
+      if (!curBlockId || curBlockId === params.blockId) {
+        newState = newState.setIn(['editor', 'block'], I.Map({
+          id: params.blockId,
+          index: newIndex,
+          color: newColor,
+        }));
       }
       return newState.setIn(['blocks', params.blockId, 'colors'], colors);
 
