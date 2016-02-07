@@ -1,9 +1,11 @@
 import {
   MainPage,
   ProgramEditor,
+} from '../components';
+import {
   BlockList,
   BlockEditor,
-} from '../components';
+} from '../components/blocks';
 
 /**
  * Predefined routes for the application

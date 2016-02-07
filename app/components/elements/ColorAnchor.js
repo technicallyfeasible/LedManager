@@ -7,7 +7,7 @@ const {
     UIManager,
   },
 } = React;
-import anchorImage from '../img/anchor.png';
+import anchorImage from '../../img/anchor.png';
 
 const styles = StyleSheet.create({
   root: {
@@ -39,7 +39,6 @@ const ColorAnchor = React.createClass({
     };
   },
   handleStartShouldSetResponder(e) {
-    if (!this.props.canMove) return false;
     this.setState({
       x: e.nativeEvent.pageX,
       y: e.nativeEvent.pageY,

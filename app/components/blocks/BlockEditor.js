@@ -2,13 +2,13 @@ import React from 'react-native';
 const {
   StyleSheet,
   View,
-  Alert,
 } = React;
 import { Map } from 'immutable';
-import { program as programActionCreators } from '../actions';
+import { program as programActionCreators } from '../../actions';
 import {
   ColorGradient,
-} from './';
+  ColorPicker,
+} from '../elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -37,30 +37,35 @@ const BlockEditor = React.createClass({
       currentColor: null,
     };
   },
+  handleAdd(location) {
+    const id = this.props.route && this.props.route.id;
+    this.props.programActions.addAnchor(id, location);
+  },
   handlePress(index) {
     const id = this.props.route && this.props.route.id;
-    const program = this.props.program;
-    const color = program.getIn(['blocks', id, 'colors', index]);
-    this.setState({
-      currentColor: color,
-    });
+    this.props.programActions.selectAnchor(id, index);
+  },
+  handleColorChange(color) {
+    const id = this.props.route && this.props.route.id;
+    const index = this.props.program.getIn(['editor', 'block', 'index']);
+    this.props.programActions.setBlockColor(id, index, color);
   },
   render() {
     const id = this.props.route && this.props.route.id;
     const program = this.props.program;
 
     const block = program.getIn(['blocks', id]);
-    const locationAdd = this.props.programActions.addAnchor.bind(this, id);
     const locationChange = this.props.programActions.setColorLocation.bind(this, id);
 
+    const editor = program.getIn(['editor', 'block']);
     let colorPicker = null;
-    if (this.state.currentColor) {
-      colorPicker = <View style={{ width: 100, height: 50, backgroundColor: this.state.currentColor.get('color') }} />;
+    if (editor.get('id') === id) {
+      colorPicker = <ColorPicker color={editor.getIn(['color', 'color'])} onChange={this.handleColorChange} />;
     }
 
     return (
       <View style={styles.root}>
-        <ColorGradient key={id} colors={block.get('colors').toJS()} onLocationAdd={locationAdd} onLocationChange={locationChange} onPress={this.handlePress} />
+        <ColorGradient key={id} colors={block.get('colors').toJS()} onLocationAdd={this.handleAdd} onLocationChange={locationChange} onPress={this.handlePress} />
         { colorPicker }
       </View>
     );

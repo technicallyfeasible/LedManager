@@ -46,15 +46,24 @@ const initialState = I.fromJS({
       ],
     },
   },
+  editor: {
+    block: {
+      id: null,
+      index: -1,
+      color: null,
+    },
+  },
 });
 
 function program(state = initialState, action) {
   const params = action.params;
+  let newState = state;
 
   switch (action.type) {
     case ActionTypes.Program.ADD_TIMELINE:
       const timelines = state.get('timelines');
       return state.set('timelines', timelines.push(I.fromJS(action.instance || [])));
+
     case ActionTypes.Program.ADD_BLOCK:
       // find a free blockId starting at 1
       let blockId = 1;
@@ -67,15 +76,33 @@ function program(state = initialState, action) {
         id: blockId.toString(),
       });
       return state.setIn(['blocks', blockId.toString()], I.fromJS(block));
+
     case ActionTypes.Program.Block.ADD_ANCHOR:
-      const colors = state.getIn(['blocks', params.blockId, 'colors']).push(I.fromJS({
+      const newColor = I.fromJS({
         id: 0, color: '#000', location: params.location,
-      })).sort((a, b) => {
+      });
+      const colors = state.getIn(['blocks', params.blockId, 'colors']).push(newColor).sort((a, b) => {
         return a.get('location') - b.get('location');
       });
-      return state.setIn(['blocks', params.blockId, 'colors'], colors);
+      if (newState.getIn(['editor', 'block', 'id']) === params.blockId) {
+        newState = newState.setIn(['editor', 'block', 'color'], newColor).setIn(['editor', 'block', 'index'], colors.indexOf(newColor));
+      }
+      return newState.setIn(['blocks', params.blockId, 'colors'], colors);
+
+    case ActionTypes.Program.Block.SELECT_ANCHOR:
+      const color = state.getIn(['blocks', params.blockId, 'colors', params.index]);
+      return state.setIn(['editor', 'block', 'id'], params.blockId).setIn(['editor', 'block', 'index'], params.index).setIn(['editor', 'block', 'color'], color);
+
     case ActionTypes.Program.Block.SET_COLOR_LOCATION:
       return state.setIn(['blocks', params.blockId, 'colors', params.index, 'location'], params.location);
+
+    case ActionTypes.Program.Block.SET_COLOR:
+      // if we are changing the currently edited block and color then update there as well
+      if (newState.getIn(['editor', 'block', 'id']) === params.blockId && newState.getIn(['editor', 'block', 'index']) === params.index) {
+        newState = newState.setIn(['editor', 'block', 'color', 'color'], params.color);
+      }
+      return newState.setIn(['blocks', params.blockId, 'colors', params.index, 'color'], params.color);
+
     default:
       return state;
   }

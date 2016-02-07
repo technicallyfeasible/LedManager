@@ -35,6 +35,19 @@ function addAnchor(blockId, location) {
 }
 
 /**
+ * Select an anchor for editing
+ */
+function selectAnchor(blockId, index) {
+  return {
+    type: ActionTypes.Program.Block.SELECT_ANCHOR,
+    params: {
+      blockId,
+      index,
+    },
+  };
+}
+
+/**
  * Set the location of a color in a block
  */
 function setColorLocation(blockId, index, location) {
@@ -44,6 +57,20 @@ function setColorLocation(blockId, index, location) {
       blockId,
       index,
       location,
+    },
+  };
+}
+
+/**
+ * Set the color at a location in a block
+ */
+function setBlockColor(blockId, index, color) {
+  return {
+    type: ActionTypes.Program.Block.SET_COLOR,
+    params: {
+      blockId,
+      index,
+      color,
     },
   };
 }
@@ -74,6 +101,8 @@ export default {
   addTimeline,
   addBlock,
   addAnchor,
+  selectAnchor,
   setColorLocation,
+  setBlockColor,
   upload,
 };

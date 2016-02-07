@@ -6,14 +6,12 @@ const {
   ListView,
 } = React;
 import I from 'immutable';
-import { program as programActionCreators } from '../actions';
-import routes from '../constants/routes';
-import {
-  ColorGradient,
-} from './';
+import { program as programActionCreators } from '../../actions';
+import routes from '../../constants/routes';
 import {
   Button,
-} from './elements';
+  ColorGradient,
+} from '../elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

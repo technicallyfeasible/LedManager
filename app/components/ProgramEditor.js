@@ -6,7 +6,7 @@ const {
 } = React;
 import { Map } from 'immutable';
 import { program as programActionCreators } from '../actions';
-import Timeline from './Timeline';
+import Timeline from './timeline/Timeline';
 import Button from './elements/Button';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
