@@ -2,53 +2,63 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
-
-const store = require('./app/store');
-const React = require('react-native');
+import store from './app/store';
+import React from 'react-native';
 const {
   AppRegistry,
   StyleSheet,
+  Navigator,
   Text,
-  View,
-} = React;
-const { Provider } = require('react-redux');
+  TouchableOpacity,
+  Image,
+  } = React;
+import { Provider } from 'react-redux';
+import routes from './app/constants/routes';
+
+import backImage from './app/img/back.png';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  navBar: {
+    marginTop: 5,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  navText: {
+    marginTop: 2,
+    fontSize: 30,
   },
 });
 
 const LedManager = React.createClass({
   render() {
+    const routeMapper = {
+      LeftButton: (route, navigator, index) => {
+        if (index === 0) return;
+        return (
+          <TouchableOpacity onPress={navigator.pop}>
+            <Image source={backImage} width={48} height={42} />
+          </TouchableOpacity>
+        );
+      },
+      RightButton: (route, navigator, index, navState) => route.rightElement && route.rightElement(route, navigator, index, navState),
+      Title: (route) => {
+        return <Text style={styles.navText}>{route.name}</Text>;
+      },
+    };
+
+    // modify top position for navigator container so it doesn't overlap the navbar
+    const navStyles = {
+      top: Navigator.NavigationBar.Styles.General.TotalNavHeight,
+    };
+
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to React Native!
-          </Text>
-          <Text style={styles.instructions}>
-            To get started, edit index.ios.js
-          </Text>
-          <Text style={styles.instructions}>
-            Press Cmd+R to reload,{'\n'}
-            Cmd+D or shake for dev menu
-          </Text>
-        </View>
+        <Navigator sceneStyle={[styles.container, navStyles]}
+                   initialRoute={routes.root()}
+                   renderScene={(route, navigator) => <route.component route={route} navigator={navigator} />}
+                   navigationBar={<Navigator.NavigationBar style={styles.navBar} routeMapper={routeMapper} />}
+        />
       </Provider>
     );
   },
